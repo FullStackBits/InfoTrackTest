@@ -1,0 +1,28 @@
+﻿@model InfoTrackTest.Models.SearchEngineRequest
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Engine Search</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Search">
+            <div class="form-group">
+                <label asp-for="SearchPhrase" class="control-label"></label>
+                <input asp-for="SearchPhrase" class="form-control" />
+                <span asp-validation-for="SearchPhrase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SiteURL" class="control-label"></label>
+                <input asp-for="SiteURL" class="form-control" />
+                <span asp-validation-for="SiteURL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+

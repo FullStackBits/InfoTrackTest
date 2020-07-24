@@ -1,0 +1,12 @@
+﻿@model int[]
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Search Results</h1>
+<hr />
+<div class="row">
+    @(Model==null || Model.Length==0 ? "0" : String.Join(',',Model.Select(n=>n.ToString())))
+</div>
+
