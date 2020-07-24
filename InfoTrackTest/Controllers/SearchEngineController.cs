@@ -19,7 +19,7 @@ namespace InfoTrackTest.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(new SearchEngineRequest() { SearchPhrase= "online title search", SiteURL= "www.infotrack.com.au" });
         }
 
         [HttpPost]
