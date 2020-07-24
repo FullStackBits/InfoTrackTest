@@ -15,7 +15,7 @@ namespace InfoTrackTest.Domain.Services
     {
         private const string SearchEngineUrl = "https://www.google.com";
         private const string SearchPath = "/search";
-        //private const string HrefPattern = "<a(.*?)href=\"(?<LinkURL>[^\"]*)\"[^>]*>(?<LinkContents>.*?)<\\s*/\\s*a>";
+
         private const string HrefPattern = "<a(.*?)href=\"(?<LinkURL>[^\"]*)\"[^>]*>";
 
         private readonly IURLProcessingQueue _urlProcessingQueue;
@@ -23,16 +23,18 @@ namespace InfoTrackTest.Domain.Services
         private readonly IWebClient _webClient;
         private SearchEngineRequest _request;
 
-        public Google(IURLProcessingQueue urlProcessingQueue,
+        public Google(
+            IURLProcessingQueue urlProcessingQueue,
             IURLSearchResponseRepository urlSearchRepository,
             IWebClient webClient) =>
-            (_urlProcessingQueue, _urlSearchRepository, _webClient) = (urlProcessingQueue, urlSearchRepository, webClient);
+            (_urlProcessingQueue, _urlSearchRepository, _webClient) =
+            (urlProcessingQueue, urlSearchRepository, webClient);
 
         public async Task SearchEngineForRequest(SearchEngineRequest request)
         {
             _request = request;
             string requestSearchUrl = $"{SearchEngineUrl}{SearchPath}?q={WebUtility.UrlEncode(request.SearchPhrase)}";
-            _urlProcessingQueue.EnQueue(new SearchRequest() { URL = requestSearchUrl, Page = 1 });
+            _urlProcessingQueue.EnQueue(new SearchRequest() {URL = requestSearchUrl, Page = 1});
             try
             {
                 var currentSearchRequest = _urlProcessingQueue.DeQueue();
@@ -47,34 +49,29 @@ namespace InfoTrackTest.Domain.Services
                 Console.WriteLine("Processing ended");
             }
         }
+
         private async Task FindSiteInSearchResults(SearchRequest searchRequest)
         {
             var contents = await _webClient.GetStringAsync(searchRequest.URL);
             var linkMatches = Regex.Matches(contents, HrefPattern).ToList();
-            //if (contents.IndexOf(_request.SiteURL) >= 0)
-            //{
-            //    _urlSearchRepository.Add(
-            //        new SearchResponse() { Request = searchRequest, Found = true }
-            //    );
-            //}
-
 
             if (linkMatches.Any(LinkMatchingCriteria))
             {
                 _urlSearchRepository.Add(
-                    new SearchResponse() { Request = searchRequest, Found = true }
+                    new SearchResponse() {Request = searchRequest, Found = true}
                 );
             }
 
 
             _urlProcessingQueue.EnQueue(new SearchRequest()
             {
-                URL = $"{SearchEngineUrl}{SearchPath}?q={WebUtility.UrlEncode(_request.SearchPhrase)}&start={10 * searchRequest.Page}",
+                URL =
+                    $"{SearchEngineUrl}{SearchPath}?q={WebUtility.UrlEncode(_request.SearchPhrase)}&start={10 * searchRequest.Page}",
                 Page = searchRequest.Page + 1
             });
         }
 
-        Func<Match, bool> LinkMatchingCriteria => match => match.Groups["LinkURL"].ToString().ToLower().Contains(_request.SiteURL.ToLower());
-
+        Func<Match, bool> LinkMatchingCriteria => match =>
+            match.Groups["LinkURL"].ToString().ToLower().Contains(_request.SiteURL.ToLower());
     }
 }

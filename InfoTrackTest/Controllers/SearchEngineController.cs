@@ -13,13 +13,18 @@ namespace InfoTrackTest.Controllers
         private readonly ISearchEngineRequestHandler _requestHandler;
         private readonly IURLSearchResponseRepository _urlSearchResponseRepositry;
 
-        public SearchEngineController(ISearchEngineRequestHandler requestHandler, IURLSearchResponseRepository urlSearchResponseRepositry) =>
-            (_requestHandler, _urlSearchResponseRepositry) = (requestHandler, urlSearchResponseRepositry);
+        public SearchEngineController(ISearchEngineRequestHandler requestHandler,
+            IURLSearchResponseRepository urlSearchResponseRepository) =>
+            (_requestHandler, _urlSearchResponseRepositry) = (requestHandler, urlSearchResponseRepository);
 
 
         public IActionResult Index()
         {
-            return View(new SearchEngineRequest() { SearchPhrase= "online title search", SiteURL= "www.infotrack.com.au" });
+            return View(new SearchEngineRequest()
+            {
+                SearchPhrase = "online title search",
+                SiteURL = "www.infotrack.com.au"
+            });
         }
 
         [HttpPost]
@@ -29,8 +34,12 @@ namespace InfoTrackTest.Controllers
             {
                 await _requestHandler.HandleRequest(request);
             }
-            catch (Exception exp) { }
-            var result = _urlSearchResponseRepositry.GetResults(resp => resp.Found).Select(resp => resp.Request.Page).ToArray();
+            catch (Exception exp)
+            {
+            }
+
+            var result = _urlSearchResponseRepositry.GetResults(resp => resp.Found).Select(resp => resp.Request.Page)
+                .ToArray();
             return View(result);
         }
     }

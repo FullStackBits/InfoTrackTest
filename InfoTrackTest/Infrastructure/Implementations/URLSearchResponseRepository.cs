@@ -10,6 +10,7 @@ namespace InfoTrackTest.Infrastructure.Implementations
     public class URLSearchResponseRepository : IURLSearchResponseRepository
     {
         List<SearchResponse> _searchResults = new List<SearchResponse>();
+
         public void Add(SearchResponse searchResult)
         {
             _searchResults.Add(searchResult);
@@ -19,5 +20,5 @@ namespace InfoTrackTest.Infrastructure.Implementations
         {
             return _searchResults.Where(criteria).ToList();
         }
-        }
+    }
 }

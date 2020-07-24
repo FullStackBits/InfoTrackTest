@@ -17,16 +17,17 @@ namespace InfoTrackTest.Domain.Implementations
     {
         IConfiguration _configuration;
         SearchEngineFactory _searchEngineFactory;
-        public SearchEngineRequestHandler(IConfiguration configuration, SearchEngineFactory searchEngineFactory) => (_configuration, _searchEngineFactory) = (configuration, searchEngineFactory);
+
+        public SearchEngineRequestHandler(IConfiguration configuration, SearchEngineFactory searchEngineFactory) =>
+            (_configuration, _searchEngineFactory) = (configuration, searchEngineFactory);
 
         public async Task HandleRequest(SearchEngineRequest request)
         {
-            var searchEnginers = _configuration.GetSection("SearchEngines").Get<SearchEngineSpecification[]>();
-            foreach (var searchEngine in searchEnginers)
+            var searchEngines = _configuration.GetSection("SearchEngines").Get<SearchEngineSpecification[]>();
+            foreach (var searchEngine in searchEngines)
             {
                 await _searchEngineFactory.GetService(searchEngine).SearchEngineForRequest(request);
             }
         }
-
     }
 }

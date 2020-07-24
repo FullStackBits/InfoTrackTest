@@ -14,7 +14,7 @@ namespace XUnitTests.Domain.Services
         public async void Must_Find_1_And_33_Page()
         {
             MockGoogleWebClient webClient = new MockGoogleWebClient();
-            webClient.SuccessPages = new int[] { 1, 33 };
+            webClient.SuccessPages = new int[] {1, 33};
             webClient.UrlToScan = "www.infotrack.com.au";
 
             MockProcessingQueue queu = new MockProcessingQueue();
@@ -22,9 +22,15 @@ namespace XUnitTests.Domain.Services
             MockSearchResponseRepository responseRepository = new MockSearchResponseRepository();
 
             Google googleEngineService = new Google(queu, responseRepository, webClient);
-            await googleEngineService.SearchEngineForRequest(new InfoTrackTest.Models.SearchEngineRequest() { SearchPhrase="online title search",SiteURL= "www.infotrack.com.au" });
+            await googleEngineService.SearchEngineForRequest(
+                new InfoTrackTest.Models.SearchEngineRequest()
+                {
+                    SearchPhrase = "online title search",
+                    SiteURL = "www.infotrack.com.au"
+                });
 
-            var results = responseRepository.GetResults(response => response.Found).Select(response => response.Request.Page).ToArray();
+            var results = responseRepository.GetResults(response => response.Found)
+                .Select(response => response.Request.Page).ToArray();
             Assert.NotNull(results);
             Assert.Equal(results.Length, webClient.SuccessPages.Length);
             foreach (int page in webClient.SuccessPages)
@@ -37,7 +43,7 @@ namespace XUnitTests.Domain.Services
         public async void Must_Not_Find_Any_Page()
         {
             MockGoogleWebClient webClient = new MockGoogleWebClient();
-            webClient.SuccessPages = new int[] {};
+            webClient.SuccessPages = new int[] { };
             webClient.UrlToScan = "www.infotrack.com.au";
 
             MockProcessingQueue queu = new MockProcessingQueue();
@@ -45,12 +51,17 @@ namespace XUnitTests.Domain.Services
             MockSearchResponseRepository responseRepository = new MockSearchResponseRepository();
 
             Google googleEngineService = new Google(queu, responseRepository, webClient);
-            await googleEngineService.SearchEngineForRequest(new InfoTrackTest.Models.SearchEngineRequest() { SearchPhrase = "online title search", SiteURL = "www.infotrack.com.au" });
+            await googleEngineService.SearchEngineForRequest(
+                new InfoTrackTest.Models.SearchEngineRequest()
+                {
+                    SearchPhrase = "online title search",
+                    SiteURL = "www.infotrack.com.au"
+                });
 
-            var results = responseRepository.GetResults(response => response.Found).Select(response => response.Request.Page).ToArray();
+            var results = responseRepository.GetResults(response => response.Found)
+                .Select(response => response.Request.Page).ToArray();
             Assert.NotNull(results);
             Assert.Equal(0, results.Length);
         }
-
     }
 }

@@ -13,7 +13,7 @@ namespace InfoTrackTest.Infrastructure.Implementations
         private int processingCount = 0;
         private Queue<SearchRequest> _urls = new Queue<SearchRequest>();
 
-        public int EnQueueLimit { get ; set; }
+        public int EnQueueLimit { get; set; }
 
         public bool EnQueue(SearchRequest request)
         {
@@ -23,6 +23,7 @@ namespace InfoTrackTest.Infrastructure.Implementations
                 _urls.Enqueue(request);
                 return true;
             }
+
             return false;
         }
 

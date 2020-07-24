@@ -29,11 +29,11 @@ namespace InfoTrackTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ISearchEngineRequestHandler, SearchEngineRequestHandler>()
-            .AddScoped<IURLProcessingQueue, URLProcessingQueue>()
-            .AddScoped<IURLSearchResponseRepository, URLSearchResponseRepository>()
-            .AddTransient<IWebClient, WebClient>()
-            .AddScoped<SearchEngineFactory>()
-            .AddControllersWithViews();
+                .AddScoped<IURLProcessingQueue, URLProcessingQueue>()
+                .AddScoped<IURLSearchResponseRepository, URLSearchResponseRepository>()
+                .AddTransient<IWebClient, WebClient>()
+                .AddScoped<SearchEngineFactory>()
+                .AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +49,7 @@ namespace InfoTrackTest
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -10,6 +10,7 @@ namespace XUnitTests.Mocks
     public class MockSearchResponseRepository : IURLSearchResponseRepository
     {
         List<SearchResponse> _searchResults = new List<SearchResponse>();
+
         public void Add(SearchResponse searchResult)
         {
             _searchResults.Add(searchResult);

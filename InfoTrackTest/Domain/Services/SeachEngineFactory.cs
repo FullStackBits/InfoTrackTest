@@ -12,13 +12,16 @@ namespace InfoTrackTest.Domain.Services
 {
     public class SearchEngineFactory
     {
-
         private readonly IURLProcessingQueue _urlProcessingQueue;
         private readonly IURLSearchResponseRepository _urlSearchRepository;
         private readonly IWebClient _webClient;
 
-        public SearchEngineFactory(IURLProcessingQueue urlProcessingQueue, IURLSearchResponseRepository urlSearchRepository, IWebClient webClient) => 
-            (_urlProcessingQueue, _urlSearchRepository, _webClient) = (urlProcessingQueue, urlSearchRepository, webClient);
+        public SearchEngineFactory(
+            IURLProcessingQueue urlProcessingQueue,
+            IURLSearchResponseRepository urlSearchRepository,
+            IWebClient webClient) =>
+            (_urlProcessingQueue, _urlSearchRepository, _webClient) =
+            (urlProcessingQueue, urlSearchRepository, webClient);
 
         public ISearchEngineService GetService(SearchEngineSpecification specification)
         {

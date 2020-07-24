@@ -21,6 +21,7 @@ namespace XUnitTests.Mocks
                 _urls.Enqueue(request);
                 return true;
             }
+
             return false;
         }
 
